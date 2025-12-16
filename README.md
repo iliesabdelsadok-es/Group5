@@ -120,8 +120,9 @@ Logging of all events
 Complete autonomous operation
 
 9. Required Libraries
+
 Hardware & GPIO, RPi.GPIO, grove.grove_relay, grove.display.jhd1802, grove.grove_moisture_sensor, dht11, Data Logging, influxdb_client, Utilities, time, traceback
 
-10. Conclusion
+11. Conclusion
 
 This prototype combines environmental sensors, user interaction, and automated decision-making to manage classroom ventilation intelligently and safely. It enhances comfort, encourages engagement, and logs all system activity for analysis.
