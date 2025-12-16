@@ -34,19 +34,6 @@ All events and errors are logged to InfluxDB.
 | Presence buttons      | Student presence & voting    | 12, 16, 18 |
 | Start button          | New session reset            | 6          |
 
-## InfluxDB Logging
-
-Different types of data are stored:
-
-### Environment & Voting
-- temperature
-- moisture
-- vote count
-- totalPresent
-
-### Error Logs
-- error message
-- full Python traceback in case of error
 
 ## Presence Management
 
@@ -123,6 +110,20 @@ Data logging:
 Utilities:
 - time
 - traceback
+- 
+## InfluxDB Logging
+
+Different types of data are stored in an local influx database:
+
+### Environment & Voting
+- temperature
+- moisture
+- vote count
+- totalPresent
+
+### Error Logs
+- error message
+- full Python traceback in case of error
 
 ## Monitoring & Dashboards (Grafana)
 
