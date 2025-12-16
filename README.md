@@ -121,25 +121,15 @@ Complete autonomous operation
 
 9. Required Libraries
 Hardware & GPIO
-
 RPi.GPIO
-
 grove.grove_relay
-
 grove.display.jhd1802
-
 grove.grove_moisture_sensor
-
 dht11
-
 Data Logging
-
 influxdb_client
-
 Utilities
-
 time
-
 traceback
 
 10. Conclusion
