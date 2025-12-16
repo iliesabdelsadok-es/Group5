@@ -75,11 +75,7 @@ The LCD displays the reason for closing.
 
 ## Error Handling
 
-Every exception creates an InfluxDB error entry containing:
-- the error message
-- the Python traceback
-
-Safe shutdown ensures:
+If an exception happens, a safe shutdown ensures:
 - Relay off
 - LCD cleared
 - GPIO cleanup
