@@ -105,7 +105,7 @@ Data logging:
 Utilities:
 - time
 - traceback
-- 
+ 
 ## InfluxDB Logging
 
 Different types of data are stored in an local influx database:
@@ -128,7 +128,7 @@ Dashboards are connected to **InfluxDB** and allow visualization of system behav
 
 Available dashboards include:
 - **Validated votes vs number of participants**
-- **Validated votes vs temperature**
+- **Vote failed and current tmperature**
 - **Environmental monitoring** (temperature & moisture over time)
 
 Grafana enables analysis of classroom behavior, environmental conditions, and decision-making efficiency.
