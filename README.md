@@ -134,7 +134,7 @@ Available dashboards include:
 Grafana enables analysis of classroom behavior, environmental conditions, and decision-making efficiency.
 
 Access Grafana at:  
-`http://<raspberry-pi-ip>:8080`
+`http://<raspberry-pi-ip>:3000`
 
 ## Conclusion
 
