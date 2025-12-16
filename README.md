@@ -1,27 +1,28 @@
 # Group5
 Raspberry-Pi–powered automated window control system
 
-Overview
+## Overview
 
-This project is a Raspberry-Pi–powered automated window control system designed for a classroom environment.
-It uses temperature, moisture, presence detection, and a democratic voting mechanism to decide whether to open or close windows. All events and errors are logged to InfluxDB.
+This project is a Raspberry-Pi–powered automated window control system designed for a classroom environment.  
+It uses temperature, moisture, presence detection, and a democratic voting mechanism to decide whether to open or close windows.  
+All events and errors are logged to InfluxDB.
 
 ## Table of Contents
 
 - [Overview](#overview)
-- [Hardware Components](#1-hardware-components)
-- [InfluxDB Logging](#2-influxdb-logging)
-- [Presence Management](#3-presence-management)
-- [Environmental Monitoring](#4-environmental-monitoring)
-- [Voting System](#5-voting-system)
-- [Window Closing Logic](#6-window-closing-logic)
-- [Error Handling](#7-error-handling)
-- [Main Loop Summary](#8-main-loop-summary)
-- [Required Libraries](#9-required-libraries)
-- [Monitoring & Dashboards (Grafana)](#10-monitoring--dashboards-grafana)
-- [Conclusion](#11-conclusion)
+- [Hardware Components](#hardware-components)
+- [InfluxDB Logging](#influxdb-logging)
+- [Presence Management](#presence-management)
+- [Environmental Monitoring](#environmental-monitoring)
+- [Voting System](#voting-system)
+- [Window Closing Logic](#window-closing-logic)
+- [Error Handling](#error-handling)
+- [Main Loop Summary](#main-loop-summary)
+- [Required Libraries](#required-libraries)
+- [Monitoring & Dashboards (Grafana)](#monitoring--dashboards-grafana)
+- [Conclusion](#conclusion)
 
-1. Hardware Components
+## Hardware Components
 
 | Component             | Purpose                      | GPIO       |
 | --------------------- | ---------------------------- | ---------- |
@@ -33,133 +34,113 @@ It uses temperature, moisture, presence detection, and a democratic voting mecha
 | Presence buttons      | Student presence & voting    | 12, 16, 18 |
 | Start button          | New session reset            | 6          |
 
+## InfluxDB Logging
 
-2. InfluxDB Logging
+Different types of data are stored:
 
-differents type of datas are stored:
+### Environment & Voting
+- temperature
+- moisture
+- vote count
+- totalPresent
 
-Environment & Voting
+### Error Logs
+- error message
+- full Python traceback in case of error
 
-temperature
-
-moisture
-
-vote count
-
-totalPresent
-
-Error Logs
-
-error message
-
-full Python traceback in case of error
-
-3. Presence Management
+## Presence Management
 
 Each student presses their assigned button to mark presence.
 
 The START button clears presence and begins a new session.
 
-LCD shows number of present students.
+The LCD displays the number of present students.
 
-4. Environmental Monitoring
+## Environmental Monitoring
 
 The loop continuously reads:
-
-Temperature (DHT11)
-
-Moisture level (rain detection)
+- Temperature (DHT11)
+- Moisture level (rain detection)
 
 Voting is triggered when:
-
 - Temperature > 25°C
-
 - Moisture < 50 (dry)
-
 - Window is closed
 
-5. Voting System
+## Voting System
 
 When conditions require opening the window:
+- LCD displays: “Open windows? Press button”
+- Present students vote by pressing their presence button
 
-LCD displays: “Open windows? Press button”
+Voting rules:
+- Vote duration: 15 seconds
+- If YES votes > 50% → window opens
+- Cooldown prevents repeated votes after a NO result
 
-Present students vote by pressing their presence button.
-
-Vote duration: 15 seconds
-
-If YES votes > 50% → window opens.
-
-Cooldown prevents repeated votes after a NO result.
-
-6. Window Closing Logic
+## Window Closing Logic
 
 When the window is open:
+- If temperature < 24°C → close window
+- If moisture > 200 (rain detected) → close window
 
-If temperature < 24°C → close window
+The LCD displays the reason for closing.
 
-If moisture > 200 (rain detected) → close window
-
-LCD messages indicate the reason.
-
-7. Error Handling
+## Error Handling
 
 Every exception creates an InfluxDB error entry containing:
-
-the error message
-
-the Python traceback
+- the error message
+- the Python traceback
 
 Safe shutdown ensures:
+- Relay off
+- LCD cleared
+- GPIO cleanup
 
-Relay off
-
-LCD cleared
-
-GPIO cleanup
-
-8. Main Loop Summary
+## Main Loop Summary
 
 Runs every 1 second and executes:
+- Presence detection
+- Environmental measurement
+- Voting logic
+- Window opening/closing
+- Logging of all events
 
-Presence detection
+The system operates fully autonomously.
 
-Environmental measurement
+## Required Libraries
 
-Voting logic
+Hardware & GPIO:
+- RPi.GPIO
+- grove.grove_relay
+- grove.display.jhd1802
+- grove.grove_moisture_sensor
+- dht11
 
-Window opening/closing
+Data logging:
+- influxdb_client
 
-Logging of all events
+Utilities:
+- time
+- traceback
 
-Complete autonomous operation
+## Monitoring & Dashboards (Grafana)
 
-9. Required Libraries
+The system provides real-time monitoring dashboards using **Grafana**, accessible on **port 8080**.
 
-Hardware & GPIO, RPi.GPIO, grove.grove_relay, grove.display.jhd1802, grove.grove_moisture_sensor, dht11, Data Logging, influxdb_client, Utilities, time, traceback
-
-10. Monitoring & Dashboards (Grafana)
-
-The system provides real-time monitoring dashboards using Grafana, accessible on port 8080.
-
-These dashboards are connected to InfluxDB and allow visualization of system behavior and voting activity over time.
+Dashboards are connected to **InfluxDB** and allow visualization of system behavior and voting activity.
 
 Available dashboards include:
+- **Validated votes vs number of participants**
+- **Validated votes vs temperature**
+- **Environmental monitoring** (temperature & moisture over time)
 
-- Validated votes vs number of participants
-Displays how many votes were validated depending on the number of present students.
+Grafana enables analysis of classroom behavior, environmental conditions, and decision-making efficiency.
 
-- Validated votes vs temperature
-Shows the relationship between indoor temperature and the number of validated votes.
+Access Grafana at:  
+`http://<raspberry-pi-ip>:8080`
 
-- Environmental monitoring
-Temperature and moisture evolution over time.
+## Conclusion
 
-Grafana enables easy analysis of classroom behavior, environmental conditions, and decision-making efficiency.
-
-Access Grafana at:
-http://<raspberry-pi-ip>:8080
-
-11. Conclusion
-
-This prototype combines environmental sensors, user interaction, and automated decision-making to manage classroom ventilation intelligently and safely. It enhances comfort, encourages engagement, and logs all system activity for analysis.
+This prototype combines environmental sensors, user interaction, and automated decision-making to manage classroom ventilation intelligently and safely.  
+It enhances comfort, encourages engagement, and logs all system activity for further analysis.
