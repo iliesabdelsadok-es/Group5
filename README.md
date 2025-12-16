@@ -123,6 +123,28 @@ Complete autonomous operation
 
 Hardware & GPIO, RPi.GPIO, grove.grove_relay, grove.display.jhd1802, grove.grove_moisture_sensor, dht11, Data Logging, influxdb_client, Utilities, time, traceback
 
+10. Monitoring & Dashboards (Grafana)
+
+The system provides real-time monitoring dashboards using Grafana, accessible on port 8080.
+
+These dashboards are connected to InfluxDB and allow visualization of system behavior and voting activity over time.
+
+Available dashboards include:
+
+- Validated votes vs number of participants
+Displays how many votes were validated depending on the number of present students.
+
+- Validated votes vs temperature
+Shows the relationship between indoor temperature and the number of validated votes.
+
+- Environmental monitoring
+Temperature and moisture evolution over time.
+
+Grafana enables easy analysis of classroom behavior, environmental conditions, and decision-making efficiency.
+
+Access Grafana at:
+http://<raspberry-pi-ip>:8080
+
 11. Conclusion
 
 This prototype combines environmental sensors, user interaction, and automated decision-making to manage classroom ventilation intelligently and safely. It enhances comfort, encourages engagement, and logs all system activity for analysis.
